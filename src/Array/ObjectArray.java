@@ -16,6 +16,13 @@ public class ObjectArray<E> {
 		this(10);
 	}
 
+	public ObjectArray(E[] arr) {
+		data = (E[]) new Object[arr.length];
+		for (int i = 0; i < arr.length; i++)
+			data[i] = arr[i];
+		size = arr.length;
+	}
+
 	// 获取元素个数
 	public int getSize() {
 		return this.size;
@@ -112,6 +119,12 @@ public class ObjectArray<E> {
 		int index = this.find(data);
 		if (index != -1)
 			this.remove(index);
+	}
+
+	public void swap(int index1, int index2) {
+		E temp = data[index1];
+		data[index1] = data[index2];
+		data[index2] = temp;
 	}
 
 	@Override
