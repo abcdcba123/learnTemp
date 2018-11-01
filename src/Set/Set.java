@@ -6,9 +6,9 @@ public interface Set<E> {
 
 	boolean isEmpty();
 
-	void add();
+	void add(E e);
 
-	void remove();
+	void remove(E e);
 
 	boolean contains(E e);
 

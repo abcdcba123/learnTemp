@@ -120,6 +120,104 @@ public class AVLTree<K extends Comparable<K>, V> {
 		return node;
 	}
 
+	public V remove(K key) {
+		Node node = getNode(root, key);
+		if (node != null) {
+			root = remove(root, key);
+			return node.value;
+		}
+		return null;
+	}
+
+	// 删除以node为根的二
+	private Node remove(Node node, K key) {
+		//递归终止条件，节点为空或者要删除的就是此节点
+		if (node == null) return null;
+
+		Node retNode;
+		if (node.key.compareTo(key) > 0) {
+			//要删除的节点在node的左子树
+			retNode = remove(node.left, key);
+		} else if (node.key.compareTo(key) > 0) {
+			//要删除的节点在node的右子树
+			retNode = remove(node.right, key);
+		} else {
+			//要删除的就是此节点
+			// 待删除节点左子树为空的情况
+			if (node.left == null) {
+				Node rightNode = node.right;
+				node.right = null;
+				size--;
+				// return rightNode;
+				retNode = rightNode;
+			}
+			// 待删除节点右子树为空的情况
+			else if (node.right == null) {
+				Node leftNode = node.left;
+				node.left = null;
+				size--;
+				// return leftNode;
+				retNode = leftNode;
+			}
+
+			// 待删除节点左右子树均不为空的情况
+			else {
+				// 找到比待删除节点大的最小节点, 即待删除节点右子树的最小节点
+				// 用这个节点顶替待删除节点的位置
+				Node successor = findMin(node.right);
+				//successor.right = removeMin(node.right);
+				successor.right = remove(node.right, successor.key);
+				successor.left = node.left;
+
+				node.left = node.right = null;
+
+				// return successor;
+				retNode = successor;
+			}
+		}
+		if (retNode == null)
+			return null;
+
+		// 更新height
+		retNode.height = 1 + Math.max(getHeight(retNode.left), getHeight(retNode.right));
+
+		// 计算平衡因子
+		int balanceFactor = getBalanceFactor(retNode);
+
+		// 平衡维护
+		// LL
+		if (balanceFactor > 1 && getBalanceFactor(retNode.left) >= 0)
+			return rightRotate(retNode);
+
+		// RR
+		if (balanceFactor < -1 && getBalanceFactor(retNode.right) <= 0)
+			return leftRotate(retNode);
+
+		// LR
+		if (balanceFactor > 1 && getBalanceFactor(retNode.left) < 0) {
+			retNode.left = leftRotate(retNode.left);
+			return rightRotate(retNode);
+		}
+
+		// RL
+		if (balanceFactor < -1 && getBalanceFactor(retNode.right) > 0) {
+			retNode.right = rightRotate(retNode.right);
+			return leftRotate(retNode);
+		}
+		return retNode;
+	}
+
+	// 寻找以node为根的最小值
+	private Node findMin(Node node) {
+		//递归结束条件
+		if (node == null) return node;
+		if (node.left == null) {
+			//此node就是最小值
+			return node;
+		}
+		return findMin(node.left);
+	}
+
 	// 对节点y进行向右旋转操作，返回旋转后新的根节点x
 	//        y                              x
 	//       / \                           /   \
