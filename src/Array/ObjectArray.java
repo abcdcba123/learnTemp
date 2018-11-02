@@ -84,6 +84,12 @@ public class ObjectArray<E> {
 		return this.data[index];
 	}
 
+	public void set(int index, E e) {
+		if (index < 0 || index > this.size)
+			throw new IllegalArgumentException("index is illegal");
+		data[index] = e;
+	}
+
 	// 通过值搜索元素是否存在
 	public boolean contains(E data) {
 		for (int i = 0; i < this.size; i++) {
