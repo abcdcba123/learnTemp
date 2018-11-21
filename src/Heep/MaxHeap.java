@@ -24,6 +24,14 @@ public class MaxHeap<E extends Comparable<E>> {
 			siftDown(i);
 	}
 
+	public int getSize() {
+		return data.getSize();
+	}
+
+	public boolean isEmpty() {
+		return data.isEmpty();
+	}
+
 	public void add(E e) {
 		data.addLast(e);
 //		data.swap(0,data.getSize() - 1);

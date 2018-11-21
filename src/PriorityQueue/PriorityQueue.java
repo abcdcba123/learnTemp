@@ -1,13 +1,23 @@
 package PriorityQueue;
 
-public class PriorityQueue<E> {
+import Heep.MaxHeap;
+import Queue.Queue;
 
-	private E[] data;
-	private int size;
+public class PriorityQueue<E extends Comparable<E>> implements Queue<E> {
 
-	// 构造函数，传入数组的容量capacity构造Array
-	public PriorityQueue(int capacity) {
-		data = (E[]) new Object[capacity];
-		size = 0;
+	private MaxHeap<E> maxHeap;
+
+	public void PriorityQueue(){
+		maxHeap = new MaxHeap<>();
+	}
+
+	@Override
+	public int getSize() {
+		return maxHeap.;
+	}
+
+	@Override
+	public void push(E e) {
+
 	}
 }
