@@ -98,6 +98,26 @@ public class LinkedListCreator {
 		return prevHead;
 	}
 
+	public Node deleteIfEquels(Node head, int value) {
+		//删除最开始等于value的节点
+		while (head != null && head.getValue() == value) {
+			head = head.getNext();
+		}
+		if (head == null) {
+			return null;
+		}
+		Node currentNode = head;
+		while (currentNode != null && currentNode.getNext() != null) {
+			if (currentNode.getNext().getValue() == value) {
+				//delete node
+				currentNode.setNext(currentNode.getNext().getNext());
+			} else {
+				currentNode = currentNode.getNext();
+			}
+		}
+		return head;
+	}
+
 	public static void main(String[] args) {
 		// 创建链表 Stack
 		LinkedListCreator creator = new LinkedListCreator();
@@ -117,11 +137,16 @@ public class LinkedListCreator {
 //		Node.printLinkedList(loopHead1);
 
 		// 创建长链表 loop
-		Node loopHead2 = creator.createLargeNumberLinkedListWithLoop(1000000);
+//		Node loopHead2 = creator.createLargeNumberLinkedListWithLoop(1000000);
 //		Node.printLinkedList(loopHead2);
 
-		Node reversalLoopNode = creator.reversalLinkedListWithLoop(loopHead2);
+//		Node reversalLoopNode = creator.reversalLinkedListWithLoop(loopHead2);
 //		Node.printLinkedList(reversalLoopNode);
 		System.out.println("complete");
+
+		Node loopHead3 = creator.createLinkedListWithLoop(Arrays.asList(3, 3, 3, 4, 5, 6));
+		Node.printLinkedList(loopHead3);
+		Node deleteEndHead1 = creator.deleteIfEquels(loopHead3, 3);
+		Node.printLinkedList(deleteEndHead1);
 	}
 }
